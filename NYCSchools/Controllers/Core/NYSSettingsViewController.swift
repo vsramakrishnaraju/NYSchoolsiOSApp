@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// controlelr for settings
 final class NYSSettingsViewController: UIViewController {
 
     override func viewDidLoad() {

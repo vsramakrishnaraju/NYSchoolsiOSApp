@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// controller to house tab and root tab
 final class NYSTabBarController: UITabBarController {
     
     // Mark: - Lifecycles
