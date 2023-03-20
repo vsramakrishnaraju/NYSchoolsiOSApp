@@ -6,3 +6,12 @@
 //
 
 import Foundation
+struct NYSchools: Codable {
+    let dbn: String?
+    let school_name: String?
+    let overview_paragraph: String?
+    let location: String?
+    let phone_number: String?
+    let school_email: String?
+    let website: String?
+}

@@ -23,6 +23,9 @@
 		D2E87F7229C84AD300C8D37F /* NYSService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E87F7129C84AD300C8D37F /* NYSService.swift */; };
 		D2E87F7429C84AEA00C8D37F /* NYSRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E87F7329C84AEA00C8D37F /* NYSRequest.swift */; };
 		D2E87F7629C84C1D00C8D37F /* NYSEndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E87F7529C84C1D00C8D37F /* NYSEndPoint.swift */; };
+		D2E87F7A29C8716100C8D37F /* NYSRespose.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E87F7929C8716100C8D37F /* NYSRespose.swift */; };
+		D2E87F7C29C87C9000C8D37F /* UIView+Exit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E87F7B29C87C9000C8D37F /* UIView+Exit.swift */; };
+		D2E87F7E29C87F5300C8D37F /* NYSchoolCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E87F7D29C87F5300C8D37F /* NYSchoolCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +65,9 @@
 		D2E87F7129C84AD300C8D37F /* NYSService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NYSService.swift; sourceTree = "<group>"; };
 		D2E87F7329C84AEA00C8D37F /* NYSRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NYSRequest.swift; sourceTree = "<group>"; };
 		D2E87F7529C84C1D00C8D37F /* NYSEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NYSEndPoint.swift; sourceTree = "<group>"; };
+		D2E87F7929C8716100C8D37F /* NYSRespose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NYSRespose.swift; sourceTree = "<group>"; };
+		D2E87F7B29C87C9000C8D37F /* UIView+Exit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Exit.swift"; sourceTree = "<group>"; };
+		D2E87F7D29C87F5300C8D37F /* NYSchoolCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NYSchoolCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +160,8 @@
 		D2E87F6429C82D3900C8D37F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D2E87F7B29C87C9000C8D37F /* UIView+Exit.swift */,
+				D2E87F7D29C87F5300C8D37F /* NYSchoolCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -197,6 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				D2E87F6A29C8369700C8D37F /* NYSchools.swift */,
+				D2E87F7929C8716100C8D37F /* NYSRespose.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -348,9 +357,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2E87F7E29C87F5300C8D37F /* NYSchoolCell.swift in Sources */,
 				D2E87F6B29C8369700C8D37F /* NYSchools.swift in Sources */,
 				D2C981C129C3CF080076FA6F /* NYSTabBarController.swift in Sources */,
+				D2E87F7A29C8716100C8D37F /* NYSRespose.swift in Sources */,
 				D2E87F7229C84AD300C8D37F /* NYSService.swift in Sources */,
+				D2E87F7C29C87C9000C8D37F /* UIView+Exit.swift in Sources */,
 				D2E87F7029C83C1200C8D37F /* NYSSettingsViewController.swift in Sources */,
 				D2E87F6E29C8371800C8D37F /* NYSchoolsViewController.swift in Sources */,
 				D2C981BD29C3CF080076FA6F /* AppDelegate.swift in Sources */,
