@@ -12,7 +12,7 @@ final class NYSRequest {
     
     /// API constants
     private struct Constants {
-        static let baseURL = "https://data.cityofnewyork.us/resource/s3k6-pzi2.json"
+        static let baseURL = "https://data.cityofnewyork.us/resource/"
     }
     
     /// endpoint not required here! for future use
@@ -21,7 +21,7 @@ final class NYSRequest {
     /// url string
     public var urlString: String {
         var string = Constants.baseURL
-        string += "/"
+        string += endpoint.rawValue
         
         return string
     }
@@ -41,4 +41,5 @@ final class NYSRequest {
 
 extension NYSRequest {
     static let listNYSchoolsRequest = NYSRequest(endpoint: .NYSchools)
+    static let listNYSchoolsSatScoreRequest = NYSRequest(endpoint: .NYSChoolsSatScore)
 }

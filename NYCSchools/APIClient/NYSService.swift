@@ -53,7 +53,7 @@ final class NYSServcie {
             do {
                 let result = try JSONDecoder().decode(type.self, from: data)
                 completion(.success(result))
-                print(result.self)
+//                print(result.self)
             }
             catch {
                 completion(.failure(error))

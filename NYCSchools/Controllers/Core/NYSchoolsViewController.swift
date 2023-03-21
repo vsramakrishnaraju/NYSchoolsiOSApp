@@ -12,19 +12,26 @@ final class NYSchoolsViewController: UIViewController {
     
     var tableView = UITableView()
     var nySchools = [NYSchools]()
+    var nySchoolsSatScore = [NYSchoolsSATScore]()
     
     struct Cells {
         static let NYSchoolsCell = "NYSchoolCell"
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
-
-        title = "NYSchools"
+        
+        title = "New York Schools"
         // Do any additional setup after loading the view.
-                
+        
+        serviceCall()
+        configureTableView()
+        setTableViewDelegate()
+    }
+    
+    func serviceCall() {
         NYSServcie.shared.execute(.listNYSchoolsRequest, expecting: [NYSchools].self) { result in
             switch result {
             case .success(let model):
@@ -37,8 +44,14 @@ final class NYSchoolsViewController: UIViewController {
             }
         }
         
-        configureTableView()
-        setTableViewDelegate()
+        NYSServcie.shared.execute(.listNYSchoolsSatScoreRequest, expecting: [NYSchoolsSATScore].self) { result in
+            switch result {
+            case .success(let model):
+                self.nySchoolsSatScore = model
+            case .failure(let error):
+                print(String(describing: error))
+            }
+        }
     }
     
     func configureTableView() {
@@ -67,5 +80,18 @@ extension NYSchoolsViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let nySchool = nySchools[indexPath.row].school_name
+        let nySchoolDes = nySchools[indexPath.row].overview_paragraph
+        let nySchoolLocn = nySchools[indexPath.row].location
+        
+        let nyNYSSatScoreVC = NYSchoolsSatScoreViewController()
+        nyNYSSatScoreVC.nySchoolSat = nySchool
+        nyNYSSatScoreVC.text = nySchoolDes
+        nyNYSSatScoreVC.nySchoolLocn = nySchoolLocn
+        
+        navigationController?.pushViewController(nyNYSSatScoreVC, animated: true)
+    }
 }
 
