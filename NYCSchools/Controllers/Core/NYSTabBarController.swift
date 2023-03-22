@@ -13,7 +13,7 @@ final class NYSTabBarController: UITabBarController {
     // Mark: - Lifecycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        view.backgroundColor = .systemBackground
         setUpTabs()
     }
     
@@ -27,7 +27,7 @@ final class NYSTabBarController: UITabBarController {
         let nav1 = UINavigationController(rootViewController: NYSchoolsVC)
         let nav2 = UINavigationController(rootViewController: NYSSettingsVC)
         
-        nav1.tabBarItem = UITabBarItem(title: "NYShools", image: UIImage(systemName: "house"), tag: 1)
+        nav1.tabBarItem = UITabBarItem(title: "New York Schools", image: UIImage(systemName: "house"), tag: 1)
         nav2.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "gear"), tag: 2)
         
         for nav in [nav1, nav2] {
