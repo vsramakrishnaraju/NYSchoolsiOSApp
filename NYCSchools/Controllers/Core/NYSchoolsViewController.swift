@@ -13,6 +13,9 @@ final class NYSchoolsViewController: UIViewController {
     var tableView = UITableView()
     var nySchools = [NYSchools]()
     var nySchoolsSatScore = [NYSchoolsSATScore]()
+    var filteredNySchools = [NYSchools]()
+    
+    lazy var searchBar:UISearchBar = UISearchBar()
     
     struct Cells {
         static let NYSchoolsCell = "NYSchoolCell"
@@ -29,6 +32,16 @@ final class NYSchoolsViewController: UIViewController {
         serviceCall()
         configureTableView()
         setTableViewDelegate()
+        searchBarView()
+    }
+    
+    func searchBarView() {
+        searchBar.searchBarStyle = UISearchBar.Style.default
+        searchBar.placeholder = " Search..."
+        searchBar.sizeToFit()
+        searchBar.isTranslucent = false
+        searchBar.backgroundImage = UIImage()
+        navigationItem.titleView = searchBar
     }
     
     func serviceCall() {
@@ -36,6 +49,7 @@ final class NYSchoolsViewController: UIViewController {
             switch result {
             case .success(let model):
                 self.nySchools = model
+                self.filteredNySchools = model // Initialize filtered list with all schools
             case .failure(let error):
                 print(String(describing: error))
             }
@@ -50,6 +64,9 @@ final class NYSchoolsViewController: UIViewController {
                 self.nySchoolsSatScore = model
             case .failure(let error):
                 print(String(describing: error))
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
             }
         }
     }
@@ -81,7 +98,10 @@ extension NYSchoolsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let nySchoolFull = nySchools
+        let nySchoolSatFull = nySchoolsSatScore
+        let index = indexPath.row
+
         let nySchool = nySchools[indexPath.row].school_name
         let nySchoolDes = nySchools[indexPath.row].overview_paragraph
         let nySchoolLocn = nySchools[indexPath.row].location
@@ -90,8 +110,23 @@ extension NYSchoolsViewController: UITableViewDelegate, UITableViewDataSource {
         nyNYSSatScoreVC.nySchoolSat = nySchool
         nyNYSSatScoreVC.text = nySchoolDes
         nyNYSSatScoreVC.nySchoolLocn = nySchoolLocn
+        nyNYSSatScoreVC.nySchoolFull1 = nySchoolFull
+        nyNYSSatScoreVC.nySchoolFull2 = nySchoolSatFull
+        nyNYSSatScoreVC.indexRow = index
         
         navigationController?.pushViewController(nyNYSSatScoreVC, animated: true)
+    }
+}
+
+extension NYSchoolsViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            filteredNySchools = nySchools
+        } else {
+            filteredNySchools = nySchools.filter { $0.school_name!.lowercased().contains(searchText.lowercased()) }
+        }
+        tableView.reloadData()
     }
 }
 
