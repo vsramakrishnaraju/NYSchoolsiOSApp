@@ -12,6 +12,11 @@ final class NYSchoolsSatScoreViewController: UIViewController {
     var nySchoolSat: String?
     var text: String?
     var nySchoolLocn: String?
+    var nySchoolFull1: [NYSchools]?
+    var nySchoolFull2: [NYSchoolsSATScore]?
+    var indexRow: Int?
+    
+    var foundMatchingSatScore = false
     
     var collB: NYSchoolsSATScore?
     
@@ -20,10 +25,11 @@ final class NYSchoolsSatScoreViewController: UIViewController {
     let titleLabel = UILabel()
     let label = UILabel()
     let locationlable = UILabel()
-
+    let satlable = UILabel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         view.backgroundColor = .systemBackground
         
         label.frame = CGRect(x: 20, y: 50, width: 300, height: 300)
@@ -38,5 +44,24 @@ final class NYSchoolsSatScoreViewController: UIViewController {
         locationlable.numberOfLines = 0
         view.addSubview(locationlable)
         
+        if let nySchoolFull2 = nySchoolFull2 {
+            for school in nySchoolFull2 {
+                if (nySchoolFull1![indexRow!].dbn == school.dbn) {
+                    foundMatchingSatScore = true
+                    satlable.frame = CGRect(x: 20, y: 500, width: 300, height: 300)
+                    satlable.text = "SAT Reading Ave Score: " + school.sat_critical_reading_avg_score! + "\nSAT Math Ave Score: " +  school.sat_math_avg_score! + "\nSAT Writing Ave Score: " +  school.sat_writing_avg_score!
+                    satlable.textAlignment = .left
+                    satlable.numberOfLines = 0
+                    view.addSubview(satlable)
+                }
+            }
+            if !foundMatchingSatScore {
+                satlable.frame = CGRect(x: 20, y: 500, width: 300, height: 300)
+                satlable.text = "SAT Reading Ave Score: N/A \nSAT Math Ave Score: N/A \nSAT Writing Ave Score: N/A"
+                satlable.textAlignment = .left
+                satlable.numberOfLines = 0
+                view.addSubview(satlable)
+            }
+        }
     }
 }

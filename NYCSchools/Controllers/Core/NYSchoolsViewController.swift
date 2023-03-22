@@ -13,6 +13,9 @@ final class NYSchoolsViewController: UIViewController {
     var tableView = UITableView()
     var nySchools = [NYSchools]()
     var nySchoolsSatScore = [NYSchoolsSATScore]()
+    var filteredNySchools = [NYSchools]()
+    
+    lazy var searchBar:UISearchBar = UISearchBar()
     
     struct Cells {
         static let NYSchoolsCell = "NYSchoolCell"
@@ -29,6 +32,17 @@ final class NYSchoolsViewController: UIViewController {
         serviceCall()
         configureTableView()
         setTableViewDelegate()
+        searchBarView()
+    }
+    
+    func searchBarView() {
+        searchBar.searchBarStyle = UISearchBar.Style.default
+        searchBar.placeholder = " Search..."
+        searchBar.sizeToFit()
+        searchBar.isTranslucent = false
+        searchBar.backgroundImage = UIImage()
+        searchBar.delegate = self
+        navigationItem.titleView = searchBar
     }
     
     func serviceCall() {
@@ -36,6 +50,7 @@ final class NYSchoolsViewController: UIViewController {
             switch result {
             case .success(let model):
                 self.nySchools = model
+                self.filteredNySchools = model // Initialize filtered list with all schools
             case .failure(let error):
                 print(String(describing: error))
             }
@@ -50,6 +65,9 @@ final class NYSchoolsViewController: UIViewController {
                 self.nySchoolsSatScore = model
             case .failure(let error):
                 print(String(describing: error))
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
             }
         }
     }
@@ -68,30 +86,50 @@ final class NYSchoolsViewController: UIViewController {
     }
 }
 
-extension NYSchoolsViewController: UITableViewDelegate, UITableViewDataSource {
+extension NYSchoolsViewController: UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return nySchools.count
+        return filteredNySchools.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Cells.NYSchoolsCell) as! NYSchoolCell
-        cell.nySchooolTitleLable.text = nySchools[indexPath.row].school_name
+        cell.nySchooolTitleLable.text = filteredNySchools[indexPath.row].school_name
         return cell
     }
     
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            filteredNySchools = nySchools
+        } else {
+            filteredNySchools = nySchools.filter { $0.school_name!.lowercased().contains(searchText.lowercased()) }
+        }
+        tableView.reloadData()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = nil
+        filteredNySchools = nySchools
+        tableView.reloadData()
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let nySchoolFull = filteredNySchools
+        let nySchoolSatFull = nySchoolsSatScore
+        let index = indexPath.row
         
-        let nySchool = nySchools[indexPath.row].school_name
-        let nySchoolDes = nySchools[indexPath.row].overview_paragraph
-        let nySchoolLocn = nySchools[indexPath.row].location
+        let nySchool = filteredNySchools[indexPath.row].school_name
+        let nySchoolDes = filteredNySchools[indexPath.row].overview_paragraph
+        let nySchoolLocn = filteredNySchools[indexPath.row].location
         
         let nyNYSSatScoreVC = NYSchoolsSatScoreViewController()
         nyNYSSatScoreVC.nySchoolSat = nySchool
         nyNYSSatScoreVC.text = nySchoolDes
         nyNYSSatScoreVC.nySchoolLocn = nySchoolLocn
+        nyNYSSatScoreVC.nySchoolFull1 = nySchoolFull
+        nyNYSSatScoreVC.nySchoolFull2 = nySchoolSatFull
+        nyNYSSatScoreVC.indexRow = index
         
         navigationController?.pushViewController(nyNYSSatScoreVC, animated: true)
     }
 }
-
